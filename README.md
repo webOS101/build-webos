@@ -9,6 +9,8 @@ This directory and the repository in which it resides hold upper level code used
 Set-up
 -------------
 
+Because this repository uses Git submodules, you must register your SSH key with GitHub in order to build it. For help on doing this, visit [Generating SSH Keys] (https://help.github.com/articles/generating-ssh-keys). 
+
 Build the webos-image by cloning the git repository:
 
      git clone https://github.com/openwebos/build-webos.git
