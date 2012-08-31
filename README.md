@@ -71,7 +71,7 @@ Using the ARM emulator
 ----------------------
 To build for the ARM emulator, specify `qemuarm` to `mcf` instead of `qemux86`. To run the resulting build, type:
 
-    $ sudo ./runqmeuarm
+    $ sudo ./runqemuarm
 
 Images
 ------
