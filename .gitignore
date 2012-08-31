@@ -1,0 +1,10 @@
+*~
+BUILD-*
+Makefile
+TAGS
+autom4te.cache
+bitbake.lock
+downloads
+mcf.status
+sstate-cache
+tmp
