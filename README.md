@@ -16,7 +16,7 @@ Build the webos-image by cloning the git repository:
      git clone https://github.com/openwebos/build-webos.git
 
 
-Note: If you download the build-webos component from GitHub as an archive, tar.gz, or zip file, then you will not be able to build the image and will get the following error:
+Note: If you populate it by downloading an archive (zip or tar.gz file), then you will get the following error when you run 'mcf':
 
      fatal: Not a git repository (or any parent up to mount parent). Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYTEM not set).
 
