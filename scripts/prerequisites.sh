@@ -84,6 +84,7 @@ essential="\
     bzip2 \
     gzip \
     tar \
+    wget \
 "
 
 # And we need these when on 64-bit Ubuntu ...
