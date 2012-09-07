@@ -58,7 +58,7 @@ Running
 
 To run the resulting build in the `qemux86` emulator, type:
 
-    $ sudo ./runqemux86
+    $ runqemu webos-image qemux86
     
 Cleaning
 --------
@@ -73,7 +73,7 @@ Using the ARM emulator
 ----------------------
 To build for the ARM emulator, specify `qemuarm` to `mcf` instead of `qemux86`. To run the resulting build, type:
 
-    $ sudo ./runqemuarm
+    $ runqemu webos-image qemuarm
 
 Images
 ------
