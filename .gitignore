@@ -1,10 +1,20 @@
+# Copyright (c) 2012 Hewlett-Packard Development Company, L.P.
+
+# Common Eclipse project files
+.project
+.cproject
+
+# Build Products
 *~
-BUILD-*
+BUILD-*/
 Makefile
 TAGS
 autom4te.cache
 bitbake.lock
-downloads
+downloads/
 mcf.status
-sstate-cache
+sstate-cache/
 tmp
+
+# Local override file
+webos-local.conf
