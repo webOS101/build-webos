@@ -23,6 +23,32 @@ PALMDIR ?= "@abs_top_srcdir@"
 TMPDIR := "@abs_top_builddir@"
 BBPATH = "${PALMDIR}:${TMPDIR}"
 
+# Pull in two optional configuration files to allow the user to override
+# component source directories, shared state locations, etc.
+#
+# webos-global.conf (in the user's home directory) applies overrides to
+# all clones of openwebos/build-webos in the user's account.
+#
+# webos-local.conf resides at the top of the build-webos repo and applies
+# overrides on a per-repo basis.
+#
+# Including both here saves the user remmebering to chain to the local
+# file from the global one, avoids them forgetting to do so, and makes
+# the existence of a global override file optional.
+#
+# The location of the shared-state cache can be moved by overriding
+# DL_DIR and SSTATE_DIR. 
+#
+# The meta-webos layer can be moved out-of-tree by overriding WEBOS_LAYER.
+# Note that running mcf will still clone and checkout a meta-webos directory
+# in the root of the repo, but "make" will ignore it and use the overridden
+# location for recipes etc. The first time you move a meta-webos layer out of
+# tree may invalidate your shared state information, as a result of recloning
+# the meta-webos layer.
+
+include ${HOME}/webos-global.conf
+include ${PALMDIR}/webos-local.conf
+
 OECORE_LAYER ?= "@oecore_layer@"
 METAOE_LAYER ?= "@metaoe_layer@"
 WEBOS_LAYER ?= "@webos_layer@"
