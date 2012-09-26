@@ -60,7 +60,7 @@ To run the resulting build in the `qemux86` emulator, type:
 
     $ cd BUILD-qemux86
     $ source bitbake.rc 
-    $ runqemu webos-image qemux86
+    $ runqemu webos-image qemux86 qemuparams="-m 512"
     
 Cleaning
 --------
@@ -77,7 +77,7 @@ To build for the ARM emulator, specify `qemuarm` to `mcf` instead of `qemux86`. 
 
     $ cd BUILD-qemuarm
     $ source bitbake.rc 
-    $ runqemu webos-image qemuarm
+    $ runqemu webos-image qemuarm qemuparams="-m 512"
 
 Images
 ------
