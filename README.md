@@ -45,7 +45,7 @@ To configure the build for the `qemux86` emulator and to fetch the Git submodule
 
 The `-p` and `-b` options set the make and bitbake parallelism values to the number of CPU cores found on your computer.
 
-To build the bitbake component, type:
+To build a bitbake component, type:
 
     $ make <componentName>
  
