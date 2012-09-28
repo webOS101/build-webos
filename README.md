@@ -9,8 +9,8 @@ Description
 -----------
 This repository contains the top level code that aggregates the various [OpenEmbedded](http://openembedded.org) layers into a whole from which Open webOS images can be built. It relies on Git submodules to do this, which are handled transparently only for the initial build.
 
-Setup
-=====
+Cloning
+=======
 Because this repository uses Git submodules, you must register your SSH key with GitHub in order to clone it. For help on doing this, visit [Generating SSH Keys] (https://help.github.com/articles/generating-ssh-keys). 
 
 Set up build-webos by cloning its Git repository:
@@ -19,7 +19,8 @@ Set up build-webos by cloning its Git repository:
 
 Note: If you populate it by downloading an archive (zip or tar.gz file), then you will get the following error when you run mcf:
 
-     fatal: Not a git repository (or any parent up to mount parent). Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYTEM not set).
+     fatal: Not a git repository (or any parent up to mount parent). 
+     Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYTEM not set).
 
 
 Prerequisites
@@ -65,7 +66,9 @@ You will be prompted by sudo for a password:
     Setting up tap interface under sudo
     [sudo] password for <user>: 
 
-A window entitled QEMU will appear with a login prompt. Don't do anything. A bit later, the Open webOS lock screen will appear. Use your mouse to drag up the yellow lock icon. Then press the `HOME` key to go into Card View. Welcome to (emulated) Open webOS!
+A window entitled QEMU will appear with a login prompt. Don't do anything. A bit later, the Open webOS lock screen will appear. Use your mouse to drag up the yellow lock icon. Welcome to (emulated) Open webOS!
+
+To go into Card View after launching an app, press your keyboard’s `HOME` key. 
 
 To start up a console on the emulator, don't attempt to login at the prompt that appears in the console from which you launched runqmeu. Instead, ssh into it as root (no password):
 
