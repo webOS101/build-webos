@@ -1,122 +1,138 @@
-Open webOS
-==========
+build-webos
+===========
 
-Introduction
-------------
+Summary
+-------
+Build Open webOS images
 
-This directory and the repository in which it resides hold upper level code used to aggregate the various [OpenEmbedded](http://openembedded.org) layers, into webOS.  It does this using Git submodules which are handled transparently only for the initial build.
+Description
+-----------
+This repository contains the top level code that aggregates the various [OpenEmbedded](http://openembedded.org) layers into a whole from which Open webOS images can be built. It relies on Git submodules to do this, which are handled transparently only for the initial build.
 
-Set-up
--------------
+Setup
+=====
+Because this repository uses Git submodules, you must register your SSH key with GitHub in order to clone it. For help on doing this, visit [Generating SSH Keys] (https://help.github.com/articles/generating-ssh-keys). 
 
-Because this repository uses Git submodules, you must register your SSH key with GitHub in order to build it. For help on doing this, visit [Generating SSH Keys] (https://help.github.com/articles/generating-ssh-keys). 
-
-Build the webos-image by cloning the git repository:
+Set up build-webos by cloning its Git repository:
 
      git clone https://github.com/openwebos/build-webos.git
 
-
-Note: If you populate it by downloading an archive (zip or tar.gz file), then you will get the following error when you run 'mcf':
+Note: If you populate it by downloading an archive (zip or tar.gz file), then you will get the following error when you run mcf:
 
      fatal: Not a git repository (or any parent up to mount parent). Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYTEM not set).
 
 
 Prerequisites
--------------
-
-Before you can build, you will need some tools.  If you try to build
-without them, bitbake will fail a sanity check and tell you
-what's missing, but not really how to get the missing pieces.  You can
-force all of the missing pieces to be installed using:
+=============
+Before you can build, you will need some tools.  If you try to build without them, bitbake will fail a sanity check and tell you what's missing, but not really how to get the missing pieces. On Ubuntu, you can force all of the missing pieces to be installed by entering:
 
     $ sudo scripts/prerequisites.sh
 
 This has been tested on Ubuntu 11.04 and 12.04 32-bit.
 
-Note: Builds on 64-bit machines are not currently supported.
+Note: Builds on 64-bit machines are not currently supported. We're working on it and any help would be appreciated.
 
 
 Building
---------
-
-To configure the build for the `qemux86` emulator and to fetch the Git submodule sources:
+========
+To configure the build for the qemux86 emulator and to fetch the Git submodule sources:
 
     $ ./mcf -p 0 -b 0 qemux86
 
-The `-p` and `-b` options set the make and bitbake parallelism values to the number of CPU cores found on your computer.
+The `-p 0` and `-b 0` options set the make and bitbake parallelism values to the number of CPU cores found on your computer.
 
-To build a bitbake component, type:
-
-    $ make <componentName>
- 
-To kick off a full build of Open webOS, type the following, (which may take two hours on a reasonably fast workstation, or many more hours on a slower laptop or VM):
+To kick off a full build of Open webOS, make sure you have at least 40GB of disk space available and enter the following:
 
     $ make webos-image
 
-Running
--------
+This may take in the neighborhood of two hours on a multi-core workstation with a fast disk subsystem and lots of memory, or many more hours on a laptop with less memory and slower disks or in a VM.
 
-To run the resulting build in the `qemux86` emulator, type:
+Running
+=======
+To run the resulting build in the qemux86 emulator, enter:
 
     $ cd BUILD-qemux86
     $ source bitbake.rc 
-    $ runqemu webos-image qemux86 qemuparams="-m 512"
-    
-Cleaning
---------
-To blow away everything and do a clean build, you can remove the build folder and run `./mcf` again to create a new one:
+    $ runqemu webos-image qemux86 qemuparams="-m 512" serial
 
-    $ rm -rf BUILD-qemux86
-    $ ./mcf -p 0 -b 0 qemux86
+You will be prompted by sudo for a password:
 
-Note that the steps above are more efficient than blowing away the entire webOS tree, as that would also purge your `downloads` and `sstate-cache` folders.
+    Assuming webos-image really means .../BUILD-qemux86/deploy/images/webos-image-qemux86.ext3
+    Continuing with the following parameters:
+    KERNEL: [.../BUILD-qemux86/deploy/images/bzImage-qemux86.bin]
+    ROOTFS: [.../BUILD-qemux86/deploy/images/webos-image-qemux86.ext3]
+    FSTYPE: [ext3]
+    Setting up tap interface under sudo
+    [sudo] password for <user>: 
 
-Using the ARM emulator
-----------------------
-To build for the ARM emulator, specify `qemuarm` to `mcf` instead of `qemux86`. To run the resulting build, type:
+A window entitled QEMU will appear with a login prompt. Don't do anything. A bit later, the Open webOS lock screen will appear. Use your mouse to drag up the yellow lock icon. Then press the `HOME` key to go into Card View. Welcome to (emulated) Open webOS!
 
-    $ cd BUILD-qemuarm
-    $ source bitbake.rc 
-    $ runqemu webos-image qemuarm qemuparams="-m 512"
+To start up a console on the emulator, don't attempt to login at the prompt that appears in the console from which you launched runqmeu. Instead, ssh into it as root (no password):
+
+    $ ssh root@192.168.7.2
+    root@192.168.7.2's password:
+    root@qemux86:~#
+
+Each new image appears to ssh as a new machine with the same IP address as the previous one. ssh will therefore warn you of a potential "man-in-the-middle" attack and not allow you to connect. To resolve this, remove the stale ssh key by entering:
+
+    $ ssh-keygen -f ~/.ssh/known_hosts -R 192.168.7.2
+
+then re-enter the ssh command. 
+
+To shut down the emulator, startup a console and enter:
+
+    root@qemux86:~# halt
+
+The connection will be dropped:
+
+    Broadcast message from root@qemux86
+	(/dev/pts/0) at 18:39 ...
+
+    The system is going down for halt NOW!
+    Connection to 192.168.7.2 closed by remote host.
+    Connection to 192.168.7.2 closed.
+
+and the QEMU window will close. (If this doesn't happen, just close the QEMU window manually.) Depending on how long your emulator session lasted, you may be prompted again by sudo for a password:
+
+    [sudo] password for <user>: 
+    Set 'tap0' nonpersistent
+    Releasing lockfile of preconfigured tap device 'tap0'
+
 
 Images
-------
+======
+The following images can be built: 
 
-The following images have been tested and should build: 
+- `webos-image`: The production Open webOS image.
+- `webos-image-debug`: Adds various debugging tools to `webos-image`, including gdb and strace. See `openembedded-core/meta/recipes-core/tasks/task-core-tools-debug.bb` for the complete list.
+- `webos-image-test`: Adds various test programs to `webos-image`. See `meta-webos/recipes-core/tasks/task-webos-test.bb` for the complete list.
 
-`core-image-minimal`: This is inherited verbatim from `openembedded-core.`
 
-`webos-image`: This is an aggregator for webOS-specific components.
+Cleaning
+========
+To blow away the build artifacts and prepare to do clean build, you can remove the build directory and recreate it by typing:
 
-	
-Adding a new package to webOS
------------------------------
+    $ make clobber
 
-The procedure to add new packages to the webOS image depends on the build procedure for each individual package.
+What this retains are the caches of downloaded source (under `./downloads`) and shared state (under `./sstate-cache`). These caches will save you a tremendous amount of time during development as they facilitate incremental builds, but can cause seemingly inexplicable behavior when corrupted. If you experience strangeness, use the command presented below to remove the shared state of suspicious components. In extreme cases, you may need to remove the entire shared state cache. See [here](http://www.yoctoproject.org/docs/latest/poky-ref-manual/poky-ref-manual.html#shared-state-cache) for more information on it.
 
-1. For a CMake-based build, you will need to inherit from the `webos_cmake` class. An example recipe can be found in [`librolegen.bb`](https://github.com/openwebos/meta-webos/blob/master/recipes-webos/librolegen/librolegen.bb).
 
-1. For autoconfig/automake based build procedure, you will need to inherit from the `autotools` class. An example recipe can be found in [`c-ares_1.7.4.bb`](https://github.com/openwebos/meta-webos/blob/master/recipes-upstreamable/c-ares/c-ares_1.7.4.bb).
+Building Individual Components
+==============================
+To build an individual component, enter:
 
-1. If the package source is fetched from Github, you will need to add the following to your `local.conf` file. You must not set `SRCREV` in the package recipe directly.
+    $ make <component-name>
 
-        $ vi BUILD-<machine>/conf/local.conf
-        SRCREV_pn-<pkg name> ?= "commit-id" or "${AUTOREV}"
-		
-1. To include the new package in the image, add the following to your `local.conf`. Once the package is functional, let us know and we'll add it permanently to the image.
+To clean a component's build artifacts under BUILD-qemux86, enter:
 
-        $ vi BUILD-<machine>/conf/local.conf
-        IMAGE_INSTALL_append = " <pkg name>"  # Note the space before the name
+    $ make clean-<component-name>
 
-1. Package checksum is calculated using the Message-Digest algorithm. Use `md5sum` to generate the MD5 hash used for `LIC_FILES_CHKSUM`.
+To remove the shared state for a component as well as its build artifacts to ensure it gets rebuilt afresh from its source, enter:
+ 
+    $ make cleanall-<component-name>
 
-Build times
------------
-
-Typical build times on modern servers are running anywhere from 8 - 20 hours for single threaded builds. These times, and their variations, are primarily due to the cost of downloading source over the internet. Local mirrors are expected to cut these times by at least an order of magnitude as well as to enable sharing of prebuilt binaries. With preseeded downloads and very high parallelism, (48-core machines of which only about 16 - 24 are utilized), the build can be brought down to under an hour.
-
-# Copyright and License Information
-
+Copyright and License Information
+=================================
 Unless otherwise specified, all content, including all source code files and
 documentation files in this repository are:
 
