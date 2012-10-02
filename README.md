@@ -29,10 +29,7 @@ Before you can build, you will need some tools.  If you try to build without the
 
     $ sudo scripts/prerequisites.sh
 
-This has been tested on Ubuntu 11.04 and 12.04 32-bit.
-
-Note: Builds on 64-bit machines are not currently supported. We're working on it and any help would be appreciated.
-
+Also, the bitbake sanity check will issue a warning if you're not running under Ubuntu 11.04 or 12.04.1 LTS, either 32-bit or 64-bit.
 
 Building
 ========
@@ -47,6 +44,7 @@ To kick off a full build of Open webOS, make sure you have at least 40GB of disk
     $ make webos-image
 
 This may take in the neighborhood of two hours on a multi-core workstation with a fast disk subsystem and lots of memory, or many more hours on a laptop with less memory and slower disks or in a VM.
+
 
 Running
 =======
