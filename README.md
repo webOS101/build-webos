@@ -7,7 +7,7 @@ Build Open webOS images
 
 Description
 -----------
-This repository contains the top level code that aggregates the various [OpenEmbedded](http://openembedded.org) layers into a whole from which Open webOS images can be built. It relies on Git submodules to do this, which are handled transparently only for the initial build.
+This repository contains the top level code that aggregates the various [OpenEmbedded](http://openembedded.org) layers into a whole from which Open webOS images can be built. It relies on Git submodules to do this, which are handled transparently only for the initial build. Please note that Open webOS currently requires Ubuntu as a host operating system. It is possible to build within an Ubuntu virtual machine.
 
 Cloning
 =======
